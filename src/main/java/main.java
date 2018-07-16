@@ -21,7 +21,5 @@ public class main {
                 control.unpark(parkingBoy);
             }
         }
-        
-
     }
 }
