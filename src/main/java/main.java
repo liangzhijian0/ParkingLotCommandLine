@@ -5,8 +5,23 @@ import view.Output;
 
 public class main {
     public  static void main(String[] args){
-        Control control = new Control(new Input(),new Output());
+        Output output = new Output();
+        Input input = new Input();
+        Control control = new Control(input,output);
         ParkingBoy parkingBoy = control.initParkingBoy(4);
-        control.startExecution(parkingBoy);
+
+        while (true) {
+            output.showExecutionMessage();
+            int inputOrder = control.executecommand(parkingBoy);
+            if(inputOrder == 0) {
+                continue;
+            }else if (inputOrder == 1) {
+                control.park(parkingBoy);
+            }else{
+                control.unpark(parkingBoy);
+            }
+        }
+        
+
     }
 }

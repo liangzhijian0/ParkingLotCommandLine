@@ -28,46 +28,42 @@ public class Control {
     }
 
 
-    public void startExecution(ParkingBoy parkingBoy) {
-        int tryConut = 100;
-        while (tryConut > 0) {
-            tryConut --;
-            output.showExecutionMessage();
-            try{
-                int inputOrder = input.inputOperationChoice();
-                if (inputOrder != 1 && inputOrder != 2) {
-                    output.showErrorExecutionMessage();
-                } else {
-                    switch (inputOrder) {
-                        case 1: {
-                            if (parkingBoy.isFull())
-                                output.showParkFullMessage();
-                            else {
-                                output.showInputCarIdMessage();
-                                Car car = new Car(input.inputCarId());
-                                Receipt receipt = parkingBoy.park(car);
-                                output.showParkSuccessfullyMessage(receipt);
-                            }
-                        }
-                        break;
-                        case 2: {
-                            output.showInputReciptIdMessage();
-                            String str = input.inputReceiptId();
-                            try {
-                                Car myCar = parkingBoy.unPark(new Receipt(str));
-                                output.showUnpartSuccessfullyMessage(myCar);
-                            } catch (RuntimeException exception) {
-                                output.showtReciptIdErrorMessage();
-                            }
+    public int executecommand(ParkingBoy parkingBoy) {
+        int inputOrder = input.inputOperationChoice();
 
-                        }
-                        break;
-                    }
+        try{
+            if(inputOrder == 1){
+                if (parkingBoy.isFull()){
+                    output.showParkFullMessage();
+                    inputOrder = 0;
+                }else{
+                    output.showInputCarIdMessage();
                 }
-            }catch (Exception e){
+            }else if(inputOrder == 2){
+                output.showInputReciptIdMessage();
+            }else{
                 output.showErrorExecutionMessage();
+                inputOrder = 0;
             }
+        }catch (Exception e){
+            output.showErrorExecutionMessage();
+        }
+        return inputOrder;
+    }
 
+    public void park(ParkingBoy parkingBoy){
+        Car car = new Car(input.inputCarId());
+        Receipt receipt = parkingBoy.park(car);
+        output.showParkSuccessfullyMessage(receipt);
+    }
+
+    public void unpark(ParkingBoy parkingBoy) {
+        String str = input.inputReceiptId();
+        try {
+            Car myCar = parkingBoy.unPark(new Receipt(str));
+            output.showUnpartSuccessfullyMessage(myCar);
+        } catch (RuntimeException exception) {
+            output.showtReciptIdErrorMessage();
         }
     }
 }
