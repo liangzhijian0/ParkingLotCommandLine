@@ -23,7 +23,7 @@ public class main {
         Cli cli = new Cli();
         ParkingController parkingController = new ParkingController(request,response,parkingBoy);
         Router router = new Router("main",parkingController);
-        router.printMainInterface();
+        parkingController.printMainInterface();
 
         while (true) {
             String command = cli.read();
